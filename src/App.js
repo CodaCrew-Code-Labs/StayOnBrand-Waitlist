@@ -30,10 +30,12 @@ function App() {
         setMessage('Successfully joined the waitlist!');
         setMessageType('success');
       } else {
+        console.log('API Error:', data);
         setMessage('Something went wrong. Please try again.');
         setMessageType('error');
       }
     } catch (error) {
+      console.log('Network Error:', error);
       setMessage('Network error. Please try again.');
       setMessageType('error');
     } finally {
@@ -176,7 +178,7 @@ function App() {
               <span className="block text-[13vw] md:text-[8vw] hero-title animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.5s_both]">
                 BRAND PERFECT
               </span>
-              <span className="block text-[13vw] md:text-[8vw] text-white opacity-70 animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both] drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+              <span className="block text-[13vw] md:text-[8vw] text-stroke-white opacity-100 animate-[slideUp_1s_cubic-bezier(0.16,1,0.3,1)_0.6s_both]">
                 BUT ARE THEY READABLE?
               </span>
             </h1>
@@ -246,7 +248,7 @@ function App() {
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <div className="flex items-end justify-between mb-16">
               <div>
-                <span className="text-signal font-mono text-xs tracking-widest uppercase mb-2 block">/// Capabilities</span>
+                <span className="text-signal font-mono text-xs tracking-widest uppercase mb-2 block">{/* Capabilities */}</span>
                 <h2 className="font-display text-4xl md:text-5xl text-white font-medium leading-[0.9]">
                   WHAT YOU GET?<br />
                   <span className="text-zinc-700">THREE STEPS TO ACCESSIBLE POSTS.</span>
@@ -287,7 +289,7 @@ function App() {
                 </div>
                 <h3 className="font-display text-xl text-white mb-3">Smart Compliance Fixes</h3>
                 <p className="font-mono text-xs text-zinc-500 leading-relaxed">
-                  Don't just find porblems. Fix them. Get brand-safe color swaps that meet accessibility without killing your vibe.
+                  Don't just find problems. Fix them. Get brand-safe color swaps that meet accessibility without killing your vibe.
                 </p>
               </div>
             </div>
