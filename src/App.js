@@ -4,12 +4,15 @@ import './App.css';
 function App() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
     
     setIsSubmitting(true);
+    setMessage('');
     
     try {
       const response = await fetch('/api/subscribe', {
@@ -24,12 +27,15 @@ function App() {
       
       if (data.success) {
         setEmail('');
-        alert('Successfully joined the waitlist!');
+        setMessage('Successfully joined the waitlist!');
+        setMessageType('success');
       } else {
-        alert('Something went wrong. Please try again.');
+        setMessage('Something went wrong. Please try again.');
+        setMessageType('error');
       }
     } catch (error) {
-      alert('Network error. Please try again.');
+      setMessage('Network error. Please try again.');
+      setMessageType('error');
     } finally {
       setIsSubmitting(false);
     }
@@ -201,6 +207,16 @@ function App() {
                   <iconify-icon icon="lucide:arrow-right"></iconify-icon>
                 </button>
               </form>
+              
+              {/* Message Display */}
+              {message && (
+                <div className={`mt-3 text-center font-mono text-xs uppercase tracking-widest ${
+                  messageType === 'success' ? 'text-signal' : 'text-red-400'
+                }`}>
+                  {message}
+                </div>
+              )}
+              
               <div className="mt-4 flex justify-between items-center px-2">
                 <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">Waitlisted: <span className="text-signal">Revealed Soon</span></span>
                 <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">LAUNCHING SOON</span>
