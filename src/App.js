@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [email, setEmail] = useState('');
@@ -332,6 +333,7 @@ function App() {
           </div>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }
