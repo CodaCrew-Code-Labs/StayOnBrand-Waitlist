@@ -6,6 +6,24 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [subscriberCount, setSubscriberCount] = useState('...');
+
+  useEffect(() => {
+    // Fetch subscriber count
+    fetchSubscriberCount();
+  }, []);
+
+  const fetchSubscriberCount = async () => {
+    try {
+      const res = await fetch('/api/count');
+      const data = await res.json();
+      if (data.count !== undefined) {
+        setSubscriberCount(data.count);
+      }
+    } catch (error) {
+      setSubscriberCount('...');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +47,8 @@ function App() {
         setEmail('');
         setMessage('Successfully joined the waitlist!');
         setMessageType('success');
+        // Update subscriber count after successful subscription
+        fetchSubscriberCount();
       } else {
         console.log('API Error:', data);
         setMessage('Something went wrong. Please try again.');
@@ -220,7 +240,7 @@ function App() {
               )}
               
               <div className="mt-4 flex justify-between items-center px-2">
-                <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">Waitlisted: <span className="text-signal">Revealed Soon</span></span>
+                <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">Waitlisted: <span className="text-signal">{subscriberCount}</span></span>
                 <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">LAUNCHING SOON</span>
               </div>
             </div>

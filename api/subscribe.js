@@ -1,27 +1,23 @@
 export default async function handler(req, res) {
+  console.log('=== API CALL STARTED ===');
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { email } = req.body;
+  console.log('Email received:', email);
 
   if (!email) {
     return res.status(400).json({ success: false, error: 'Email is required' });
   }
 
-  // Debug environment variables
-  console.log('Environment check:', {
-    hasApiKey: !!process.env.MAILJET_API_KEY,
-    hasSecretKey: !!process.env.MAILJET_SECRET_KEY,
-    hasListId: !!process.env.MAILJET_LIST_ID,
-    listId: process.env.MAILJET_LIST_ID
-  });
-
-  const apiKey = process.env.MAILJET_API_KEY?.replace(/"/g, '');
-  const secretKey = process.env.MAILJET_SECRET_KEY?.replace(/"/g, '');
-  const listId = process.env.MAILJET_LIST_ID?.replace(/"/g, '');
+  const apiKey = process.env.MAILJET_API_KEY;
+  const secretKey = process.env.MAILJET_SECRET_KEY;
+  const listId = process.env.MAILJET_LIST_ID;
 
   if (!apiKey || !secretKey || !listId) {
+    console.log('Missing environment variables');
     return res.status(500).json({ 
       success: false, 
       error: 'Missing environment variables' 
@@ -29,45 +25,47 @@ export default async function handler(req, res) {
   }
 
   try {
-    const requestBody = {
-      Contacts: [{
-        Email: email,
-        IsExcludedFromCampaigns: false
-      }],
-      ContactsLists: [parseInt(listId)]
-    };
-
-    console.log('Mailjet request:', requestBody);
-
-    const response = await fetch('https://api.mailjet.com/v3/REST/contact/managemanycontacts', {
+    // Step 1: Add contact
+    const contactResponse = await fetch('https://api.mailjet.com/v3/REST/contact', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + Buffer.from(`${apiKey}:${secretKey}`).toString('base64'),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({
+        Email: email,
+        IsExcludedFromCampaigns: false
+      })
     });
 
-    const responseText = await response.text();
-    console.log('Mailjet response status:', response.status);
-    console.log('Mailjet response text:', responseText);
+    const contactData = await contactResponse.json();
+    console.log('Contact creation response:', contactData);
 
-    let responseData;
-    try {
-      responseData = responseText ? JSON.parse(responseText) : {};
-    } catch (parseError) {
-      responseData = { error: 'Invalid response from Mailjet', raw: responseText };
-    }
-    
-    if (response.ok) {
-      console.log('Mailjet success:', responseData);
-      res.status(200).json({ success: true });
+    // Step 2: Add to list
+    const listResponse = await fetch(`https://api.mailjet.com/v3/REST/contactslist/${listId}/managecontact`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + Buffer.from(`${apiKey}:${secretKey}`).toString('base64'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        Email: email,
+        Action: 'addnoforce'
+      })
+    });
+
+    const listData = await listResponse.json();
+    console.log('List subscription response:', listData);
+
+    if (listResponse.ok) {
+      console.log('=== SUCCESS ===');
+      return res.status(200).json({ success: true });
     } else {
-      console.log('Mailjet error:', response.status, responseData);
-      res.status(400).json({ success: false, error: responseData });
+      console.log('=== ERROR ===');
+      return res.status(400).json({ success: false, error: listData });
     }
   } catch (error) {
-    console.log('API error:', error.message);
-    res.status(500).json({ success: false, error: error.message });
+    console.log('=== EXCEPTION ===', error.message);
+    return res.status(500).json({ success: false, error: error.message });
   }
 }
