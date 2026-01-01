@@ -159,7 +159,7 @@ function App() {
       <nav className="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-[#030303] to-transparent">
         <div className="flex items-center gap-4 group cursor-pointer">
           <div className="w-10 h-10 border border-zinc-800 bg-zinc-900/50 flex items-center justify-center clip-corner group-hover:border-signal/50 transition-colors">
-            <iconify-icon icon="lucide:aperture" className="text-signal text-lg animate-spin-slow"></iconify-icon>
+            <img src="/stayonbrandlogo.png" alt="StayOnBrand" className="w-6 h-6" />
           </div>
           <div className="flex flex-col">
             <span className="font-display font-bold text-white tracking-tight leading-none group-hover:text-signal transition-colors">STAY-ON-BRAND</span>
@@ -281,7 +281,7 @@ function App() {
               <div className="group relative bg-[#080808] border border-zinc-800 p-8 hover:bg-zinc-900/30 transition-all duration-300 spotlight-card">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-signal transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
                 <div className="w-12 h-12 bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 group-hover:border-signal/30 transition-colors">
-                  <iconify-icon icon="lucide:zap" className="text-xl text-zinc-500 group-hover:text-signal transition-colors"></iconify-icon>
+                  <img src="/stayonbrandlogo.png" alt="Brand Color Audit" className="w-6 h-6" />
                 </div>
                 <h3 className="font-display text-xl text-white mb-3">Brand Color Audit</h3>
                 <p className="font-mono text-xs text-zinc-500 leading-relaxed">
@@ -293,7 +293,7 @@ function App() {
               <div className="group relative bg-[#080808] border border-zinc-800 p-8 hover:bg-zinc-900/30 transition-all duration-300 spotlight-card">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-signal transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top delay-75"></div>
                 <div className="w-12 h-12 bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 group-hover:border-signal/30 transition-colors">
-                  <iconify-icon icon="lucide:network" className="text-xl text-zinc-500 group-hover:text-signal transition-colors"></iconify-icon>
+                  <img src="/stayonbrandlogo.png" alt="Brand Color Audit" className="w-6 h-6" />
                 </div>
                 <h3 className="font-display text-xl text-white mb-3">Instant Post Validation</h3>
                 <p className="font-mono text-xs text-zinc-500 leading-relaxed">
@@ -305,7 +305,7 @@ function App() {
               <div className="group relative bg-[#080808] border border-zinc-800 p-8 hover:bg-zinc-900/30 transition-all duration-300 spotlight-card">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-signal transform scale-y-0 group-hover:scale-y-100 transition-transform origin-top delay-100"></div>
                 <div className="w-12 h-12 bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-6 group-hover:border-signal/30 transition-colors">
-                  <iconify-icon icon="lucide:fingerprint" className="text-xl text-zinc-500 group-hover:text-signal transition-colors"></iconify-icon>
+                  <img src="/stayonbrandlogo.png" alt="Brand Color Audit" className="w-6 h-6" />
                 </div>
                 <h3 className="font-display text-xl text-white mb-3">Smart Compliance Fixes</h3>
                 <p className="font-mono text-xs text-zinc-500 leading-relaxed">
