@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import './App.css';
-import { Analytics } from "@vercel/analytics/react"
+
+// Lazy load Analytics - not needed for initial render
+const Analytics = lazy(() => import("@vercel/analytics/react").then(mod => ({ default: mod.Analytics })));
 
 function App() {
   const [email, setEmail] = useState('');
@@ -8,6 +10,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const [subscriberCount, setSubscriberCount] = useState('...');
+  const [showAnalytics, setShowAnalytics] = useState(false);
 
   useEffect(() => {
     // Defer fetching subscriber count until after initial render
@@ -80,6 +83,8 @@ function App() {
         loader.style.transform = 'translateY(-100%)';
         document.body.classList.remove('loading');
       }
+      // Load analytics after page is displayed
+      setShowAnalytics(true);
     };
 
     // Cursor
@@ -339,7 +344,11 @@ function App() {
           </div>
         </div>
       </footer>
-      <Analytics />
+      {showAnalytics && (
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
+      )}
     </div>
   );
 }
