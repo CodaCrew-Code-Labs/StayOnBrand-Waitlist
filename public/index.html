@@ -6,43 +6,52 @@
     <link rel="icon" href="%PUBLIC_URL%/stayonbrandfavicon.png" />
     <title>StayOnBrand | Waitlist</title>
     
-    <!-- TAILWIND -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- ICONS -->
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- FONTS -->
+    <!-- FONTS - Preconnect and preload for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'void': '#030303',
-              'signal': '#CCFF00',
-              'zinc': {
-                850: '#1f1f22',
-                900: '#18181b',
-                950: '#09090b',
+    <!-- TAILWIND - defer to not block rendering -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <!-- ICONS - defer to not block rendering -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
+    <!-- GSAP - defer since animations aren't needed for initial paint -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+    <script defer>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof tailwind !== 'undefined') {
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: {
+                  'void': '#030303',
+                  'signal': '#CCFF00',
+                  'zinc': {
+                    850: '#1f1f22',
+                    900: '#18181b',
+                    950: '#09090b',
+                  }
+                },
+                fontFamily: {
+                  'display': ['"Space Grotesk"', 'sans-serif'],
+                  'mono': ['"JetBrains Mono"', 'monospace'],
+                },
+                backgroundImage: {
+                  'noise': "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')",
+                },
+                animation: {
+                  'spin-slow': 'spin 30s linear infinite',
+                }
               }
-            },
-            fontFamily: {
-              'display': ['"Space Grotesk"', 'sans-serif'],
-              'mono': ['"JetBrains Mono"', 'monospace'],
-            },
-            backgroundImage: {
-              'noise': "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')",
-            },
-            animation: {
-              'spin-slow': 'spin 30s linear infinite',
             }
-          }
+          };
         }
-      }
+      });
     </script>
   </head>
   <body class="loading">

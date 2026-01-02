@@ -10,8 +10,16 @@ function App() {
   const [subscriberCount, setSubscriberCount] = useState('...');
 
   useEffect(() => {
-    // Fetch subscriber count
-    fetchSubscriberCount();
+    // Defer fetching subscriber count until after initial render
+    // Use requestIdleCallback for non-critical data, with setTimeout fallback
+    const fetchWhenIdle = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => fetchSubscriberCount(), { timeout: 2000 });
+      } else {
+        setTimeout(fetchSubscriberCount, 100);
+      }
+    };
+    fetchWhenIdle();
   }, []);
 
   const fetchSubscriberCount = async () => {
@@ -65,15 +73,13 @@ function App() {
   };
 
   useEffect(() => {
-    // Loader
+    // Loader - hide immediately when page is ready (removed artificial 800ms delay)
     const handleLoad = () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) {
-          loader.style.transform = 'translateY(-100%)';
-          document.body.classList.remove('loading');
-        }
-      }, 800);
+      const loader = document.getElementById('loader');
+      if (loader) {
+        loader.style.transform = 'translateY(-100%)';
+        document.body.classList.remove('loading');
+      }
     };
 
     // Cursor
